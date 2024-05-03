@@ -1,0 +1,284 @@
+\documentclass[a4paper,12pt,oneside]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[colorlinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[croatian]{babel}
+
+
+\usepackage{blindtext}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=15mm,
+	top=15mm,
+	bottom=15mm,
+	right=15mm
+}
+
+\usepackage{multirow}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\newcommand{\ceil}[1]{\lceil {#1} \rceil}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=false,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=2pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=1
+}
+
+\lstset{style=mystyle}
+
+\title{Kriptografija i sigurnost mreža 2023.}
+\author{ 3. domaća zadaća \\ Doris Đivanović } 
+\date{}
+\begin{document}
+	\maketitle
+ 	\pagenumbering{gobble} 
+\section*{Zadatak 1}
+Dekriptirajte šifrat
+\begin{table}[h!]
+	\begin{tabular}{llllll}
+		INEIJ & TCEUT & IEJOS & EIKTK & OJRAV & RNAIM \\
+		APGDE & KTSSI & ORLUF & MUOET & THDIO & \\
+	\end{tabular}
+\end{table}
+
+\noindent ako je poznato da je dobiven stupčanom transpozicijom iz otvorenog
+teksta na hrvatskom jeziku, te da je broj stupaca veći od 4, a manji
+od 16.
+\subsection*{Rješenje}
+U zadanom šifratu ima $55 = 11 \cdot 5$ slova, pa ću ga zapisati u pravokutnik tih dimenzija, tj. u tablicu
+s 5 stupaca i 11 redaka. U svakom retku odredit ću odnos samoglasnika i suglasnika. Budući da je otvoreni tekst pisan na hrvatskom jeziku, odnos bi trebao biti približno 43\% : 57\% ili recimo 4 : 6, tj. 2 : 3.
+
+\begin{table}[h!]
+	\begin{tabular}{lllllll}
+		I & E & R & D & F & & 2 : 3\\
+		N & J & A & E & M & & 2 : 3\\
+		E & O & V & K & U & & 2 : 3\\
+		I & S & R & T & O & & 2 : 3\\
+		J & E & N & S & E & & 2 : 3\\
+		T & I & A & S & T & & 2 : 3\\
+		C & K & I & I & T & & 2 : 3\\
+	    E & T & M & O & H & & 2 : 3\\
+	    U & K & A & R & D & & 2 : 3\\
+	    T & O & P & L & I & & 2 : 3\\
+	    I & J & G & U & O & & 3 : 2\\
+	\end{tabular}
+\end{table}
+
+\noindent Poznato je da su najfrekventniji bigrami u hrvatskom jeziku (frekvencija veća od $0,8\%$):
+AK, AN, AS, AT, AV, CI, DA, ED, EN, IC, IJ, IN, IS, JA, JE, KA, KO, LI,
+NA, NE, NI, NO, OD, OJ, OS, OV, PO, PR, RA, RE, RI, ST, TA, TI, VA, ZA.
+
+\noindent Sada, za svaki od parova stupaca u gornjoj tablici gledam koliko se od 11 bigrama nalazi među najfrekventnijim. Podatke zapisujem u tablicu u kojoj se na mjestu $(x, y)$ nalazi pripadni broj za stupce $x$ i $y$ redom.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l|lllll}
+		  & 1 & 2 & 3 & 4 & 5\\
+		\hline
+		1 &  & 5 & 3 & 2 & 2\\
+		2 & 0 &  & 4 & 4 & 0 \\
+		3 & 5 & 4 &  & 1 & 2\\
+		4 & 4 & 1 & 1 &  & 2 \\
+		5 & 0 & 3 & 4 & 1 & \\
+	\end{tabular}
+\end{table}
+\noindent Vidim da je najveći broj u tablici $5$ i on se pojavljuje na mjestima $(1, 2)$ i $(3, 1)$. Iz toga bih mogla pretpostaviti da su stupci 1, 2 i 3 poredani redoslijedom $312$. Sljedeći najveći broj u tablici je $4$ i on se nalazi na pozicijama $(2, 3)$, $(2, 4)$, $(3, 2)$, $(4, 1)$ i $(5, 3)$. Iz toga, ono što se uklapa u već donesenu pretpostavku jest da su stupci $3$ i $5$ poredani kao $53$, a stupci $2$ i $4$ kao $24$. Dakle, pretpostavljam da je poredak stupaca 
+$$53124.$$
+
+\noindent Dobivam sljedeće:
+
+\begin{table}[h!]
+	\begin{tabular}{lllll}
+		F & R & I & E & D \\
+		M & A & N & J & E \\
+		U & V & E & O & K \\
+		O & R & I & S & T \\
+		E & N & J & E & S \\
+		T & A & T & I & S \\
+		T & I & C & K & I \\
+		H & M & E & T & O \\
+		D & A & U & K & R \\
+		I & P & T & O & L \\
+		O & G & I & J & U \\
+	\end{tabular}
+\end{table}
+
+\noindent Čitanjem ovog pravokutnika po stupcima dobivamo sljedeći, očito smisleni, otvoreni tekst:
+\newline\newline
+\textbf{FRIEDMAN JE UVEO KORISTENJE STATISTICKIH METODA U KRIPTOLOGIJU}
+
+\section*{Zadatak 2}
+Dekriptirajte sljedeća dva šifrata
+\begin{center}
+UTOTRIK
+\end{center}
+\begin{center}
+IQQBBSY
+\end{center}
+ako je poznato da su dobiveni istim ključem po pravilu
+$$y_i \equiv x_i + k_i \ \ (\text{mod} \ 26).$$
+Također je poznato da su oba otvorena teksta riječi na hrvatskom
+jeziku koje počinju jednim od slova S, P, N, D.
+
+
+\subsection*{Rješenje}
+\subsubsection*{Prvo slovo}
+Budući da je U - I = $12$, te da su prva slova oba šifrata šifrirana istim ključem, promatrat ću moguća prva slova otvorenih tekstova $x$ i $y$ takva da vrijedi $x - y = 12$ i $x, y \in \{S, P, N ,D\}$.
+\newline \newline
+Najprije, neka je $x =$ S $= 18$. Tada je $18 - y = 12$, tj. $y = 18 - 12 = 6 =$ G. Kako G $\notin \{S, P, N ,D\}$, ovaj slučaj otpada.
+\newline \newline
+Neka je $x =$ P $= 15$. Tada je $15 - y = 12$, tj. $y = 15 - 12 = 3 =$ D. Dakle, \textbf{ovaj slučaj dolazi u obzir}.
+\newline \newline
+Neka je $x =$ N $= 13$. Tada je $13 - y = 12$, tj. $y = 13 - 12 = 1 =$ B. Kako B  $\notin \{S, P, N ,D\}$, ovaj slučaj otpada.
+\newline \newline
+Konačno, neka je $x =$ D $= 3$. Tada je $3 - y = 12$, tj. $y = 3 - 12 = -9 \ (\text{mod} \ 26) = 17 = $ R. Kako R  $\notin \{S, P, N ,D\}$, i ovaj slučaj otpada.
+\newline \newline
+Dakle, zaključujem da je \textbf{prvo slovo gornjeg otvorenog teksta P, a prvo slovo donjeg otvoreng teksta D}.
+\subsubsection*{Drugo slovo}
+Budući da je T - Q = $19 - 16$ = 3, razlika između drugih slova otvorenih tekstova $x$ i $y$ trebala bi biti $x - y = 3$. Kandidate za druga slova promatrat ću među najčešćim drugim slovima u hrvatskom jeziku: $\{A, E, O, R, I, U\}$. Vidim da se među slovima A, E, O, R, I, U, samo parovi U i R, te R i O razlikuju za 3. Dakle, $x = $ U i $y =$ R ili $x = $ R i $y$ = O, tj. 
+\textbf{prva dva slova otvorenih tekstova su}
+\begin{center}
+	\textbf{PU i DR   ili PR i DO}.
+\end{center}
+
+\subsubsection*{Treće slovo}
+Kako je O - Q = 24, treća slova otvorenih tekstova $x$ i $y$ trebala bi se razlikovati za 24, tj. $x - y = 24$.
+\newline \newline
+\underline{Prvo ću promatrati slučaj da otvoreni tekstovi počinju s PU i DR}. Kako su otvoreni tekstovi na hrvatskom jeziku, pretpostavljam da bi u nekoj riječi nakon DR vjerojatno trebao dolaziti samoglasnik, dakle neki $\in \{A, E, O, I, U\}.$ Iz znanja hrvatskog jezika, najvjerojatnije mi se čini da riječ od 7 slova počinje s DRA ili DRU, pa ću provjeriti te slučajeve.
+\newline \newline
+Neka je $y =$ A $= 0$. Tada je $x - 0 = 24$, tj. $x = 24 = $ Y. Slovo Y ne postoji u hrvatskoj abecedi, dakle ovaj slučaj ne dolazi u obzir.
+\newline \newline
+Neka je $y =$ U $= 20$. Tada je $x - 20 = 24$, tj. $x = 24 + 20 = 44 \ (\text{mod} \ 26) = 18 =$ S. Dakle, kandidati za prva tri slova otvorenih tekstova su
+\begin{center}
+	\textbf{PUS i DRU}.
+\end{center}
+\noindent Iz ovakvih početaka riječi trenutno ne mogu intuitivno zaključiti o kojim bi se hrvatskim riječima moglo raditi. Iz liste najčešćih bigrama u hrvatskom jeziku u kojoj se nalazi bigram ST, mogla bih pretpostaviti da je četvrto slovo prve riječi T, tj. da prva riječ počinje s PUST. Kako je T - B $= 18$, četvrta slova otvorenih tekstova $x$ i $y$ trebala bi se razlikovati za $18$, tj. $x - y = 18$. Ako je $x =$ T $= 19$, onda $19 - y = 18$, tj, $y = 1 = $ B. Dakle, ako prva riječ počinje s PUST, druga riječ počinje s DRUB, ali ne poznajem ni jednu hrvatsku riječ koja počinje s DRUB, pa \textbf{ovo razmatranje zasad otpada}. \newline
+
+\noindent \underline{Sada ću promatrati slučaj da otvoreni tekstovi počinju s PR i DO}. Kako su otvoreni tekstovi na hrvatskom jeziku, pretpostavljam da bi u nekoj riječi nakon PR vjerojatno trebao dolaziti samoglasnik, dakle neki $\in \{A, E, O, I, U\}.$ Iz znanja hrvatskog jezika, najvjerojatnije mi se čini da riječ od 7 slova počinje s PRA, PRE, PRI ili PRO, pa ću provjeriti te slučajeve.
+\newline \newline
+Neka je $x =$ A $= 0$. Tada je $0 - y = 24$, tj. $y = -24 \ (\text{mod} \ 26) = 2 = $ C .  Dakle, kandidati za prva tri slova otvorenih tekstova su
+\begin{center}
+	\textbf{PRA i DOC}.
+\end{center}
+Budući da ne poznajem puno riječi na hrvatskom eziku koje počinju s DOC, \textbf{ovo razmatranje zasad otpada}.
+\newline\newline
+\noindent Neka je $x =$ I $= 8$. Tada je $8 - y = 24$, tj. $y = 8 - 24 = -16 \ (\text{mod} \ 26) = 10 =$ K. Dakle, kandidati za prva tri slova otvorenih tekstova su
+\begin{center}
+	\textbf{PRI i DOK}.
+\end{center}
+Sada, iz poznavanja hrvatskog jezika, mogla bih pretpostaviti da je druga riječ DOKUMENT, no ona ima 8 slova. Također, druga riječ bi mogla biti i npr. DOKAZI, ali ona ima 6 slova. \textbf{Ovaj ću slučaj zasad ostaviti po strani}.
+\newline \newline
+Neka je $x =$ O $= 14$. Tada je $14 - y = 24$, tj. $y = 14 - 24 = -10 \ (\text{mod} \ 26) = 16 = $  Q. Slovo Q ne postoji u hrvatskoj abecedi, dakle ovaj slučaj ne dolazi u obzir.
+\newline \newline
+Neka je $x =$ E $= 4$. Tada je $4 - y = 24$, tj. $y = 4 - 24 = -20 \ (\text{mod} \ 26) = 6 = $  G. Dakle, kandidati za prva tri slova otvorenih tekstova su
+\begin{center}
+	\textbf{PRE i DOG}.
+\end{center}
+Sada, iz poznavanja hrvatskog jezika, mogla bih \underline{pretpostaviti da je druga riječ DOGAĐAJ}, tj. DOGADAJ, pa ću provjeriti taj slučaj.
+\subsubsection*{Četvrto slovo}
+Kako je, iz šifrata, T - B $= 18$, četvrta slova otvorenih tekstova $x$ i $y$ trebala bi se razlikovati za $18$, tj. $x - y = 18$.
+\newline \newline
+\noindent Ako pretpostavim da je $y =$ A $= 0$, onda $x - 0 = 18$, tj, $x = 18 = $ S. Dakle, kandidati za prva četiri slova otvorenih tekstova su
+\begin{center}
+	\textbf{PRES i DOGA}.
+\end{center}
+Početak riječi PRES možda ima smisla, pa ću nastaviti s pretpostavkom da je druga riječ DOGADAJ.
+\newline \newline
+\noindent Kako je, iz šifrata,  R - B $= 16$, peta slova otvorenih tekstova $x$ i $y$ trebala bi se razlikovati za $16$, tj. $x - y = 16$. 
+\newline \newline
+\noindent Ako je $y =$ D $= 3$, onda $x - 3 = 16$, tj, $x = 16 + 3 = 19 = $ T. Dakle, ako druga riječ počinje s DOGAD, prva riječ počinje s PREST, ali, na prvu, ne poznajem ni jednu hrvatsku riječ od 7 slova koja počinje s PREST, pa \textbf{ovo razmatranje zasad otpada}.
+\newline \newline
+\noindent Sada, iz poznavanja hrvatskog jezika, \underline{pretpostavit ću da je druga riječ DOGOVOR}, i provjeriti taj slučaj. 
+\newline \newline
+Neka je četvrto slovo druge riječi $y =$ O $= 14$. Tada je $x - 14 = 18$, tj. $x = 18 + 14 = 32 \ (\text{mod} \ 26) = 6 =$ G. Dakle, kandidati za prva četiri slova otvorenih tekstova su
+\begin{center}
+	\textbf{PREG i DOGO}.
+\end{center}
+Početak riječi PREG možda ima smisla, pa ću nastaviti s pretpostavkom da je druga riječ DOGOVOR, a naslućujem da bi prva riječ mogla biti PREGLED.
+
+\subsubsection*{Ostatak riječi}
+Neka je peto slovo druge riječi $y =$ V $= 21$. Tada je $x - 21 = 16$, tj. $x = 16 + 21 = 37 \ (\text{mod} \ 26) = 11 =$ L. Dakle, ako druga riječ počinje s DOGOV, prva riječ počinje s PREGL.
+
+\noindent \underline{Sada ću s velikom sigurnošću pretpostaviti da su otvoreni tekstovi uistinu PREGLED i DOGOVOR}, a to ću i provjeriti.
+\newline \newline
+\noindent Kako je, iz šifrata,  I - S = $8 - 18 = -10  \ (\text{mod} \ 26) = 16$, šesta slova otvorenih tekstova $x$ i $y$ trebala bi se razlikovati za $16$, tj. $x - y = 16$. 
+Ako pretpostavim da je $x =$ E $=4$  i $y = $ O $= 14$, tada je $x - y = 4 - 14 = -10 \ (\text{mod} \ 26) = 16$, \textbf{pa je zasad sve u redu}.
+\newline \newline
+\noindent Kako je, iz šifrata,  K - Y = $10 - 24 = -14  \ (\text{mod} \ 26) = 12 $, sedma slova otvorenih tekstova $x$ i $y$ trebala bi se razlikovati za $12$, tj. $x - y = 12$. 
+Ako pretpostavim da je $x =$ D $=3$  i $y = $ R $= 17$, tada je $x - y = 3 - 17 = -14 \ (\text{mod} \ 26) = 12$, pa zaključujem da su \textbf{otvoreni tekstovi za dane šifrate} uistinu
+\begin{center}
+	\textbf{PREGLED i DOGOVOR}.
+\end{center}
+
+\section*{Zadatak 3}
+Odredite skupove $test_1(E_1, E_1^*, C_1') $ i $test_2(E_2, E_2^*, C_2')$ ako je
+	\begin{align*}
+		E_1 &= 000101, & \qquad E_1^* &= 110001, & \qquad C_1' &= 0010, \\
+		E_2 &= 000010, & \qquad E_2^* &= 110110, & \qquad C_2' &= 1011.
+	\end{align*}
+
+\subsection*{Rješenje}
+Najprije računam $$E_1' = E_1 \oplus E_1^* = 110100$$ ($\oplus$ je bitovna operacija isključivo ili). 
+\newline
+\newline
+Sada koristim tablicu priloženu u materijalima s predavanja kako bih utvrdila skup $IN_1(E_1', C_1') = IN_1(110100, 0010)$, tj. skup mogućih inputa za output XOR = $0010$. 
+\newline
+Imam sljedeći skup:
+\begin{align*}
+IN_1(110100, 0010)= \ &\{000100, 000101, 001110, 010001, 010010, \\
+                   &010100, 011010, 011011, 100000, 100101, \\
+                   & 100110, 101110, 101111, 110000, 110001, 111010\}.
+\end{align*}
+Sada, budući da je
+$test_1(E_1, E_1^*, C_1') = \{B_1 \oplus E_1 : B_1 \in IN_1(E_1', C_1')\},$
+provođenjem potrebnih operacija, dobivam:
+\begin{align*}
+test_1(E_1, E_1^*, C_1')= \ &\{000001, 000000, 001011, 010100, 010111, \\
+                           &010001, 011111, 011110, 100101, 100000, \\
+                           &100011, 101011, 101010, 110101, 110100, 111111\}.
+\end{align*}
+
+\noindent Analogno, 
+$$E_2' = E_2 \oplus E_2^* = 110100,$$
+$$IN_2(E_2', C_2') = IN_2(110100, 1011) = \emptyset,$$
+pa zaključujem da je 
+$$test_2(E_2, E_2^*, C_2')= \emptyset.$$
+
+\end{document} 
+
+
+
+
+
+
+
+
+
+
+
